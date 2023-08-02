@@ -181,3 +181,23 @@ if (window.location.pathname === '/notes') {
 }
 
 getAndRenderNotes();
+
+// Get references to the input elements
+const noteTitleInput = document.querySelector('.note-title');
+const noteTextarea = document.querySelector('.note-textarea');
+
+// Get reference to the Save icon element
+const saveIcon = document.querySelector('.save-note');
+
+// Add event listeners to the input fields to check for changes
+noteTitleInput.addEventListener('input', showSaveIcon);
+noteTextarea.addEventListener('input', showSaveIcon);
+
+// Function to show and hide the Save icon based on input field values
+function showSaveIcon() {
+  if (noteTitleInput.value !== '' || noteTextarea.value !== '') {
+    saveIcon.style.display = 'inline'; // Show the Save icon
+  } else {
+    saveIcon.style.display = 'none'; // Hide the Save icon
+  }
+}

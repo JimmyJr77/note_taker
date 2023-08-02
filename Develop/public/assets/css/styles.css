@@ -76,3 +76,7 @@ body {
   padding: 20px;
   cursor: pointer;
 }
+
+.hidden-save {
+  display: none;
+}
