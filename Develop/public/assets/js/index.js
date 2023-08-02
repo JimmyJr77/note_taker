@@ -189,15 +189,64 @@ const noteTextarea = document.querySelector('.note-textarea');
 // Get reference to the Save icon element
 const saveIcon = document.querySelector('.save-note');
 
-// Add event listeners to the input fields to check for changes
-noteTitleInput.addEventListener('input', showSaveIcon);
-noteTextarea.addEventListener('input', showSaveIcon);
+// Hide the Save icon initially
+saveIcon.style.display = 'none';
 
 // Function to show and hide the Save icon based on input field values
 function showSaveIcon() {
-  if (noteTitleInput.value !== '' || noteTextarea.value !== '') {
+  if (noteTitleInput.value.trim() !== '' || noteTextarea.value.trim() !== '') {
     saveIcon.style.display = 'inline'; // Show the Save icon
   } else {
     saveIcon.style.display = 'none'; // Hide the Save icon
   }
 }
+
+// Add event listeners to the input fields to check for changes
+noteTitleInput.addEventListener('input', showSaveIcon);
+noteTextarea.addEventListener('input', showSaveIcon);
+
+if (window.location.pathname === '/notes') {
+  // Add event listener to the Save icon to handle the click event
+  saveIcon.addEventListener('click', saveNote);
+
+  saveNoteBtn.addEventListener('click', handleNoteSave);
+  newNoteBtn.addEventListener('click', handleNewNoteView);
+  noteTitle.addEventListener('keyup', handleRenderSaveBtn);
+  noteText.addEventListener('keyup', handleRenderSaveBtn);
+}
+
+// // Function to handle the click event of the Save icon
+// function saveNote() {
+//   const title = noteTitleInput.value.trim();
+//   const text = noteTextarea.value.trim();
+
+//   if (title !== '' && text !== '') {
+//     // Create a new note with a unique ID using the uuid library
+//     const newNote = {
+//       id: uuidv4(), // Generate a unique ID using uuid
+//       title: title,
+//       text: text
+//     };
+
+//     // Send a POST request to the server to save the new note
+//     fetch('/api/notes', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(newNote)
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       // Saved the new note to the server --> update the UI
+//       noteTitleInput.value = ''; // Clear the input fields
+//       noteTextarea.value = '';
+      
+//       // Refresh the list of notes in the left-hand column
+
+//     })
+//     .catch(error => {
+//       console.error('Error saving the note:', error);
+//     });
+//   }
+// }
