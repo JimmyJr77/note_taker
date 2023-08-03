@@ -9,6 +9,10 @@ body {
   display: none;
 }
 
+.save-note:hover {
+  cursor: pointer;
+}
+
 .icons i {
   margin-left: 15px;
   margin-right: 15px;

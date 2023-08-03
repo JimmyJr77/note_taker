@@ -4,12 +4,20 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
-if (window.location.pathname === '/notes') {
+if (window.location.pathname === '/notes.html') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
   saveNoteBtn = document.querySelector('.save-note');
   newNoteBtn = document.querySelector('.new-note');
   noteList = document.querySelectorAll('.list-container .list-group');
+
+  // Event Listeners to handle save note and new note clicks
+  saveNoteBtn.addEventListener('click', handleNoteSave);
+  newNoteBtn.addEventListener('click', handleNewNoteView);
+
+  // Event Listeneres to handle save button rendering 
+  noteTitle.addEventListener('input', handleRenderSaveBtn);
+  noteText.addEventListener('input', handleRenderSaveBtn);
 }
 
 // Show an element
@@ -22,11 +30,20 @@ const hide = (elem) => {
   elem.style.display = 'none';
 };
 
+const handleRenderSaveBtn = () => {
+  if (!noteTitle.value.trim() || !noteText.value.trim()) {
+    hide(saveNoteBtn);
+  } else {
+    show(saveNoteBtn);
+  }
+};
+
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+
 const getNotes = () =>
-  fetch('/api/notes', {
+  fetch('/api/notes_db', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +51,7 @@ const getNotes = () =>
   });
 
 const saveNote = (note) =>
-  fetch('/api/notes', {
+  fetch('/api/notes_db', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +60,7 @@ const saveNote = (note) =>
   });
 
 const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+  fetch(`/api/notes_db/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -108,14 +125,6 @@ const handleNewNoteView = (e) => {
   renderActiveNote();
 };
 
-const handleRenderSaveBtn = () => {
-  if (!noteTitle.value.trim() || !noteText.value.trim()) {
-    hide(saveNoteBtn);
-  } else {
-    show(saveNoteBtn);
-  }
-};
-
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
@@ -173,80 +182,5 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname === '/notes') {
-  saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
-  noteTitle.addEventListener('keyup', handleRenderSaveBtn);
-  noteText.addEventListener('keyup', handleRenderSaveBtn);
-}
 
 getAndRenderNotes();
-
-// Get references to the input elements
-const noteTitleInput = document.querySelector('.note-title');
-const noteTextarea = document.querySelector('.note-textarea');
-
-// Get reference to the Save icon element
-const saveIcon = document.querySelector('.save-note');
-
-// Hide the Save icon initially
-saveIcon.style.display = 'none';
-
-// Function to show and hide the Save icon based on input field values
-function showSaveIcon() {
-  if (noteTitleInput.value.trim() !== '' || noteTextarea.value.trim() !== '') {
-    saveIcon.style.display = 'inline'; // Show the Save icon
-  } else {
-    saveIcon.style.display = 'none'; // Hide the Save icon
-  }
-}
-
-// Add event listeners to the input fields to check for changes
-noteTitleInput.addEventListener('input', showSaveIcon);
-noteTextarea.addEventListener('input', showSaveIcon);
-
-if (window.location.pathname === '/notes') {
-  // Add event listener to the Save icon to handle the click event
-  saveIcon.addEventListener('click', saveNote);
-
-  saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
-  noteTitle.addEventListener('keyup', handleRenderSaveBtn);
-  noteText.addEventListener('keyup', handleRenderSaveBtn);
-}
-
-// // Function to handle the click event of the Save icon
-// function saveNote() {
-//   const title = noteTitleInput.value.trim();
-//   const text = noteTextarea.value.trim();
-
-//   if (title !== '' && text !== '') {
-//     // Create a new note with a unique ID using the uuid library
-//     const newNote = {
-//       id: uuidv4(), // Generate a unique ID using uuid
-//       title: title,
-//       text: text
-//     };
-
-//     // Send a POST request to the server to save the new note
-//     fetch('/api/notes', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(newNote)
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//       // Saved the new note to the server --> update the UI
-//       noteTitleInput.value = ''; // Clear the input fields
-//       noteTextarea.value = '';
-      
-//       // Refresh the list of notes in the left-hand column
-
-//     })
-//     .catch(error => {
-//       console.error('Error saving the note:', error);
-//     });
-//   }
-// }
