@@ -5,7 +5,7 @@ const path = require('path'); // for handling file paths
 const notes = require('./db/db.json'); // to access array data within db.json
 
 // SET PORT NUMBER FOR SERVER TO LISTEN ON
-const PORT = 3002; 
+const PORT = process.env.PORT || 3002; 
 
 // CREATE AN INSTANCE OF THE EXPRESS APPLICATION
 const app = express();
