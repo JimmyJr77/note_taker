@@ -4,6 +4,8 @@
 
 ![Express Badge](https://img.shields.io/badge/Express.js-8A2BE2) ![Node Badge](https://img.shields.io/badge/Node.js-8A2BE2) ![File System Badge](https://img.shields.io/badge/File%20System-8A2BE2) ![Path Badge](https://img.shields.io/badge/Path-8A2BE5) 
 
+A link to a working demo of note taker can be found [here](https://drive.google.com/file/d/1i1mpMDT0Zj9TpWFKADjYK72MOL-ZPwFF/view).
+
 ## Description
 #### Motivation:
 The motivation behind building the Note Taker application was to streamline the process of note-taking and organization for users.
